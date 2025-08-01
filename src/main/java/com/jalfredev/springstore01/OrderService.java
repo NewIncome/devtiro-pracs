@@ -27,4 +27,9 @@ public class OrderService {
     //c3.And to use it we call the method from the object saved in the field
     paymentService.processPayment(10);
   }
+
+  //Getters and Setters, by convention, go at the bottom of the class
+  public void setPaymentService(PaymentService paymentService) {
+    this.paymentService = paymentService;
+  }
 }

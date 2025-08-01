@@ -22,8 +22,11 @@ public class Springstore01Application {
      */
     var orderService1 = new OrderService(new StripePaymentService());
     orderService1.placeOrder();
-
+    
     var orderService2 = new OrderService(new PayPalPaymentService());
+    /* The next line is for SetterInjection 'instead-of' ConstructorInjection
+    orderService2.setPaymentService(new PayPalPaymentService());
+    */
     orderService2.placeOrder();
 	}
 
