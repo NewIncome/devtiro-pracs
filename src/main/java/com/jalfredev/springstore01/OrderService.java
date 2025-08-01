@@ -5,6 +5,10 @@
  */
 package com.jalfredev.springstore01;
 
+import org.springframework.stereotype.Service;
+
+//Annotation so Spring takes charge of managing implementations of this class
+@Service
 public class OrderService {
   //c2.Contructor Injection requires a -field- for the parameter to be injected
   private PaymentService paymentService; //Object that implements the PaymentService Interface
