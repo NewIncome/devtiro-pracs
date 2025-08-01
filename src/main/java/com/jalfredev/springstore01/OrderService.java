@@ -5,6 +5,7 @@
  */
 package com.jalfredev.springstore01;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 //Annotation so Spring takes charge of managing implementations of this class
@@ -13,11 +14,23 @@ public class OrderService {
   //c2.Contructor Injection requires a -field- for the parameter to be injected
   private PaymentService paymentService; //Object that implements the PaymentService Interface
 
+  public OrderService() {}
+
   //c1.The recommended way to inject a dependency into a class
   //is via a -Constructor-
+  /*
+   * The @Autowired annotation is needed only if there are more than 1 constructor
+   * *This is to "autowire"/match the class with it's dependencies
+   */
+  //@Autowired
   public OrderService(PaymentService paymentService) {
     this.paymentService = paymentService;
   }
+  /*
+   * With the following extra constructor, if we don'e use the above @Autowired, we'll get an error
+   public OrderService(PaymentService paymentService, int a) {}
+   * 
+   */
 
   public void placeOrder() {
     /* This is Tight coupling, meaning OrderS. is too DependentOn StripeP.S.
