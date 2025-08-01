@@ -1,8 +1,13 @@
+/**
+ * Class that habldes placing orders
+ * • When an order is placed, the customer's payment needs to be processed
+ *   SO, OrderService is dependentOn / CoupledTo: Stripe/PayPalPaymentService
+ */
 package com.jalfredev.springstore01;
 
 public class OrderService {
-  //c2.Contructor injection requires a -field- for the parameter to be injected
-  private PaymentService paymentService;
+  //c2.Contructor Injection requires a -field- for the parameter to be injected
+  private PaymentService paymentService; //Object that implements the PaymentService Interface
 
   //c1.The recommended way to inject a dependency into a class
   //is via a -Constructor-
@@ -11,7 +16,10 @@ public class OrderService {
   }
 
   public void placeOrder() {
-    //var paymentService = new StripePaymentService(); //This is Tight coupling, which is fixed with Interfaces
+    /* This is Tight coupling, meaning OrderS. is too DependentOn StripeP.S.
+     * which is fixed with Interfaces
+    */
+    //var paymentService = new StripePaymentService();
     /*
      * The above line ins't used anymore because now we are using
      *  a private Field and a constructor for ConstructorInjection
