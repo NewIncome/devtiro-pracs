@@ -22,7 +22,7 @@ public class OrderService {
    * The @Autowired annotation is needed only if there are more than 1 constructor
    * *This is to "autowire"/match the class with it's dependencies
    */
-  //@Autowired
+  @Autowired
   public OrderService(PaymentService paymentService) {
     this.paymentService = paymentService;
   }
