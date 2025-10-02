@@ -35,7 +35,8 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 
-		<!-- <dependency>
+    <!-- Testing this DB as our source for production
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
@@ -43,7 +44,7 @@
     <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+			<scope>runtime</scope>    <!-- tag to know it's a "Production Dependency" -->
 		</dependency>
 
 		<dependency>
@@ -56,6 +57,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+    <dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>     <!-- tag to know it's a "Test Dependency" -->
 		</dependency>
 	</dependencies>
 
