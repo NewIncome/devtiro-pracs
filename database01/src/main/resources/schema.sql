@@ -1,3 +1,4 @@
+/* Test-01 - creating a beginner test schema, only to test connection
 DROP TABLE IF EXISTS "widgets";
 
 DROP SEQUENCE IF EXISTS widgets_id_seq;
@@ -8,4 +9,24 @@ CREATE TABLE "widgets" (
     "name" text,
     "purpose" text,
     CONSTRAINT "widgets_pkey" PRIMARY KEY ("id")
+);
+*/
+/* Test 02 */
+DROP TABLE IF EXISTS "books";
+DROP TABLE IF EXISTS "authors";
+
+CREATE TABLE "authors" (
+    "id" bigint  DEFAULT nextval('authors_id_seq') NOT NULL,
+    "name" text,
+    "age" integer,
+    CONSTRAINT "authors_pkey" PRIMARY KEY ("id")
+);
+
+CREATE TABLE "books" (
+    "isbn" text NOT NULL,
+    "title" text,
+    "author_id" bigint,
+    CONSTRAINT "books_pkey" PRIMARY KEY ("isbn"),
+    CONSTRAINT "fk_author" FOREIGN KEY(author_id)
+    REFERENCES authors(id)
 );
