@@ -1,10 +1,12 @@
 package com.devtiro.database01.dao.impl;
 
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -45,4 +47,17 @@ public class BookDaoImplTest {
             eq(1L)
     );
   }
+
+  @Test
+  public void testThatFindOneBookGeneratesTheCorrectSql() {
+    //T2 TDD1
+    underTest.find("978-1-12345-6789-0");
+    //T2 TDD4
+    verify(jdbcTemplate).query(
+            eq("SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1"),
+            ArgumentMatchers.<BookDaoImpl.BookRowMapper>any(),   //T2 TDD6
+            eq("978-1-12345-6789-0")
+    );
+  }
+
 }
