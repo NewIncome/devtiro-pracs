@@ -1,4 +1,4 @@
-package com.devtiro.database01.dao;
+package com.devtiro.database01.dao.impl;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.devtiro.database01.dao.impl.BookDaoImpl;
 import com.devtiro.database01.domain.Book;
 
 //Unit test
