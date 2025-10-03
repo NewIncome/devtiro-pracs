@@ -43,7 +43,7 @@ public class AuthorDaoImplTest {
     underTest.create(author);
 
     verify(jdbcTemplate).update(
-            eq("INSERT INTO authors (id, anme, age) VALUES (?, ?, ?)"),
+            eq("INSERT INTO authors (id, name, age) VALUES (?, ?, ?)"),
             eq(1L), eq("Abigail Rose"), eq(80)
     );
     //mockito works better with argument matchers(like eq()) than raw values
