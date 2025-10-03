@@ -1,16 +1,15 @@
 package com.devtiro.database01.dao.impl;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import com.devtiro.database01.domain.Author;
 
@@ -56,14 +55,9 @@ public class AuthorDaoImplTest {
 
     //TDD4
     verify(jdbcTemplate).query(
-      "SELECT id, name, age FROM authors WHERE id = ? LIMIT 1",
-      any(RowMapper.class),
+      eq("SELECT id, name, age FROM authors WHERE id = ? LIMIT 1"),
+      ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any(), //TDD6
       eq(1L)
     );
-    /*
-     * Because we are using Jdbc and DAO pattern,
-     * we need to handle the conversion to-and-from SQL and Java objects our selfs
-     * For this we can use RowMappers, ResultSetExtractors, RowBackHandlers
-     */
   }
 }

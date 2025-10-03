@@ -2,6 +2,7 @@ package com.devtiro.database01.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -30,16 +31,25 @@ public class AuthorDaoImpl implements AuthorDao {
 
   //TDD3
   @Override
-  public Optional<Author> findOne(long l) {
-    // TODO Auto-generated method stub
-    return Optional.empty();
+  public Optional<Author> findOne(long authorId) {
+    //TDD7
+    List<Author> results = jdbcTemplate.query(
+            "SELECT id, name, age FROM authors WHERE id = ? LIMIT 1",
+            new AuthorRowMapper(),
+            authorId);
+    return results.stream().findFirst();
   }
 
   public static class AuthorRowMapper implements RowMapper <Author> {
+    /*
+     * Because we are using Jdbc and DAO pattern,
+     * we need to handle the conversion to-and-from SQL and Java objects our selfs
+     * For this we can use RowMappers, ResultSetExtractors, RowBackHandlers
+     */
 
+    //TDD5
     @Override
     public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
-      // TODO Auto-generated method stub
       return Author.builder()
                 .id(rs.getLong("id"))
                 .name(rs.getString("name"))
