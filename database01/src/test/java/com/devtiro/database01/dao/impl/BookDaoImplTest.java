@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.devtiro.database01.TestDataUtil;
 import com.devtiro.database01.domain.Book;
 
 //Unit test
@@ -30,12 +31,7 @@ public class BookDaoImplTest {
   @Test
   public void testThatCreateBookGeneratesCorrectSql() {   //descriptive method name
     //Step #1 in TDD. 2 in BookDao
-    //.builder() method is available thanks to the @Builder annotation in the Book class
-    Book book = Book.builder()      //helper that lets you build an object step-by-step 
-          .isbn("978-1-12345-6789-0")
-          .title("The Shadow in the Attic")
-          .authorId(1L)
-          .build();   //method to create the final object
+    Book book = TestDataUtil.createTestBook();   //method to create the final object
     underTest.create(book);
 
     //Step #4 in TDD. & Run test to get Failure . 5 in BookDaoImpl
