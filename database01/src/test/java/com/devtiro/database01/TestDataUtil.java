@@ -9,12 +9,11 @@ public final class TestDataUtil {   //final, usual patter for utility classes
   }
 
   public static Author createTestAuthor() {
-    Author author = Author.builder()
+    return Author.builder()
             .id(1L)
             .name("Abigail Rose")
             .age(80)
             .build();
-    return author;
   }
 
   public static Book createTestBook() {

@@ -7,13 +7,14 @@ import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 
 import com.devtiro.database01.dao.BookDao;
 import com.devtiro.database01.domain.Book;
 
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class BookDaoImpl implements BookDao {
 
@@ -48,7 +49,6 @@ public class BookDaoImpl implements BookDao {
   public static class BookRowMapper implements RowMapper<Book> {
 
     @Override
-    @Nullable
     public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
       return Book.builder()
               .isbn(rs.getString("isbn"))
