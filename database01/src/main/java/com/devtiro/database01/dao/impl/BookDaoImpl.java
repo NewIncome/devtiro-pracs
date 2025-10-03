@@ -50,11 +50,11 @@ public class BookDaoImpl implements BookDao {
     @Override
     @Nullable
     public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-      Book.builder()
-            .isbn(rs.getString("isbn"))
-            .title(rs.getString("title"))
-            .authorId(rs.getLong("author_id"))
-            .build();
+      return Book.builder()
+              .isbn(rs.getString("isbn"))
+              .title(rs.getString("title"))
+              .authorId(rs.getLong("author_id"))
+              .build();
     }
     
   }

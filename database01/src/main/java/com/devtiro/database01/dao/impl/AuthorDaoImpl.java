@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.jdbc.core.RowMapper;
-
+import org.springframework.stereotype.Component;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.devtiro.database01.dao.AuthorDao;
 import com.devtiro.database01.domain.Author;
 
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class AuthorDaoImpl implements AuthorDao {
 
