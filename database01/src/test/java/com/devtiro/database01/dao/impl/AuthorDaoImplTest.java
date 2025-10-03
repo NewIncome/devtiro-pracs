@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.devtiro.database01.TestDataUtil;
 import com.devtiro.database01.domain.Author;
 
 //Unit Tests
@@ -34,11 +35,7 @@ public class AuthorDaoImplTest {
   
   @Test
   public void testThatCreatesAuthorAndGeneratesCorrectSql() {
-    Author author = Author.builder()
-            .id(1L)
-            .name("Abigail Rose")
-            .age(80)
-            .build();
+    Author author = TestDataUtil.createTestAuthor();
     
     underTest.create(author);
 
