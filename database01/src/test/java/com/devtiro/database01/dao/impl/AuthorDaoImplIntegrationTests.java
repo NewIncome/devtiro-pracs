@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devtiro.database01.TestDataUtil;
 import com.devtiro.database01.domain.Author;
@@ -12,6 +13,7 @@ import com.devtiro.database01.domain.Author;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest   // Loads Spring context, includes @SpringExtension. To startup a test version of our application when our test runs
+@Transactional
 public class AuthorDaoImplIntegrationTests {
 
   private AuthorDaoImpl underTest; //reference to the class under testing

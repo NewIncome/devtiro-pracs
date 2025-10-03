@@ -7,12 +7,14 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devtiro.database01.TestDataUtil;
 import com.devtiro.database01.domain.Author;
 import com.devtiro.database01.domain.Book;
 
 @SpringBootTest
+@Transactional
 public class BookDaoImplIntegrationTests {
 
   private AuthorDaoImpl authorDao;

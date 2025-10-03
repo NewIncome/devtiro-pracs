@@ -10,12 +10,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devtiro.database01.TestDataUtil;
 import com.devtiro.database01.domain.Author;
 
 //Unit Tests
 @ExtendWith(MockitoExtension.class)
+@Transactional
 public class AuthorDaoImplTest {
 
   @Mock

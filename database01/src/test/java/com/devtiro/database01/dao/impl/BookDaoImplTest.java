@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devtiro.database01.TestDataUtil;
 import com.devtiro.database01.domain.Book;
@@ -20,6 +21,7 @@ import com.devtiro.database01.domain.Book;
  * It enables Mockito to initialize mocks and inject them into the test class
  */
 @ExtendWith(MockitoExtension.class)
+@Transactional
 public class BookDaoImplTest {
 
   @Mock
