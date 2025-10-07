@@ -37,7 +37,7 @@ public class AuthorDaoImplTest {
   
   @Test
   public void testThatCreatesAuthorAndGeneratesCorrectSql() {
-    Author author = TestDataUtil.createTestAuthor();
+    Author author = TestDataUtil.createTestAuthorA();
     
     underTest.create(author);
 
@@ -57,6 +57,15 @@ public class AuthorDaoImplTest {
       eq("SELECT id, name, age FROM authors WHERE id = ? LIMIT 1"),
       ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any(), //TDD6
       eq(1L)
+    );
+  }
+
+  @Test
+  public void testThatFindManyGeneratesTheCorrectSql() {
+    underTest.find();
+    verify(jdbcTemplate).query(
+            eq("SELECT id, name, age FROM authors"),
+            ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any()   // to specify Type format
     );
   }
 }
