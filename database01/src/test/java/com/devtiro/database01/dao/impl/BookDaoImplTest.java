@@ -1,6 +1,5 @@
 package com.devtiro.database01.dao.impl;
 
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -33,14 +32,14 @@ public class BookDaoImplTest {
   @Test
   public void testThatCreateBookGeneratesCorrectSql() {   //descriptive method name
     //Step #1 in TDD. 2 in BookDao
-    Book book = TestDataUtil.createTestBook();   //method to create the final object
+    Book book = TestDataUtil.createTestBookA();   //method to create the final object
     underTest.create(book);
 
     //Step #4 in TDD. & Run test to get Failure . 5 in BookDaoImpl
     /* this Mockito method checks whether a specific interaction occurred with the mocked jdbcTemplate */
     verify(jdbcTemplate).update(
             eq("INSERT INTO books (isbn, title, author_id) VALUES (?, ?, ?)"),
-            eq("978-1-12345-6789-0"),
+            eq("978-1-2345-6789-0"),
             eq("The Shadow in the Attic"),
             eq(1L)
     );
@@ -49,12 +48,22 @@ public class BookDaoImplTest {
   @Test
   public void testThatFindOneBookGeneratesTheCorrectSql() {
     //T2 TDD1
-    underTest.find("978-1-12345-6789-0");
+    underTest.findOne("978-1-2345-6789-0");
     //T2 TDD4
     verify(jdbcTemplate).query(
             eq("SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1"),
             ArgumentMatchers.<BookDaoImpl.BookRowMapper>any(),   //T2 TDD6
-            eq("978-1-12345-6789-0")
+            eq("978-1-2345-6789-0")
+    );
+  }
+
+  @Test
+  public void testThatBookCanFindGeneratesCorrectSql() {  //1. create the test method
+    underTest.find(); //2. call to test the new to impl method. Then go to Author interface to define
+    //5. pre-test the implementation. Test to fail
+    verify(jdbcTemplate).query(
+              eq("SELECT isbn, title, author_id FROM books"),
+              ArgumentMatchers.<BookDaoImpl.BookRowMapper>any()
     );
   }
 

@@ -34,7 +34,7 @@ public class BookDaoImpl implements BookDao {
 
   //T2 TDD3
   @Override
-  public Optional<Book> find(String isbn) {
+  public Optional<Book> findOne(String isbn) {
     //T2 TDD7
     List<Book> results = jdbcTemplate.query(
         "SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1",
@@ -43,6 +43,15 @@ public class BookDaoImpl implements BookDao {
     );
 
     return results.stream().findFirst();
+  }
+
+  @Override
+  public List<Book> find() {  //4. Implement the new method, empty. Then go to test and pre-test the complete implementation
+    //6. Code the implementation. Test to pass!!  Next. Create the IntegrationTest
+    return jdbcTemplate.query(
+                "SELECT isbn, title, author_id FROM books",
+                new BookRowMapper()
+    );
   }
 
   //T2 TDD5

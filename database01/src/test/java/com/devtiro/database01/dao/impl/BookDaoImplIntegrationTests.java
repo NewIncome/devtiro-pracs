@@ -2,6 +2,7 @@ package com.devtiro.database01.dao.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -32,13 +33,34 @@ public class BookDaoImplIntegrationTests {
     Author author = TestDataUtil.createTestAuthorA();
     authorDao.create(author);
 
-    Book book = TestDataUtil.createTestBook();
+    Book book = TestDataUtil.createTestBookA();
     book.setAuthorId(author.getId());
     underTest.create(book);
 
-    Optional<Book> result = underTest.find(book.getIsbn());
+    Optional<Book> result = underTest.findOne(book.getIsbn());
     assertThat(result).isPresent();
     assertThat(result.get()).isEqualTo(book);
+  }
+
+  @Test
+  public void testThatMultipleBooksCanBeCreatedAndRecalled() {  //7. Create the test against the DB data
+    Author author = TestDataUtil.createTestAuthorA();
+    authorDao.create(author);
+
+    Book bookA = TestDataUtil.createTestBookA();
+    bookA.setAuthorId(author.getId());
+    underTest.create(bookA);
+    Book bookB = TestDataUtil.createTestBookB();
+    bookB.setAuthorId(author.getId());
+    underTest.create(bookB);
+    Book bookC = TestDataUtil.createTestBookC();
+    bookC.setAuthorId(author.getId());
+    underTest.create(bookC);
+
+    List<Book> result = underTest.find();
+    assertThat(result)
+            .hasSize(3)
+            .contains(bookA, bookB, bookC);
   }
 
 }
