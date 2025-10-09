@@ -1,5 +1,6 @@
 package com.devtiro.database.domain;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,13 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Table(name = "books")
 public class Book {
 
+  @Id
   private String isbn;
 
   private String title;
 
-  //we could also use here an author object, but to keep it simple we'll use id
-  private long authorId;
+  @ManyToOne(cascade = CascadeType.ALL)   //to specify the relationship, and to be able to get the authorObj when we call the bookObj
+  @JoinColumn(name = "author_id")   //to set what column is used to join the field with the other table/object
+  private Author author;
 
 }
