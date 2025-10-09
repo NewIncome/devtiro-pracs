@@ -1,7 +1,7 @@
-package com.devtiro.database01;
+package com.devtiro.database;
 
-import com.devtiro.database01.domain.Author;
-import com.devtiro.database01.domain.Book;
+import com.devtiro.database.domain.Author;
+import com.devtiro.database.domain.Book;
 
 public final class TestDataUtil {   //final, usual patter for utility classes
 

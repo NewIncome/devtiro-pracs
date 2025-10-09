@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.devtiro</groupId>
-	<artifactId>database01</artifactId>
+	<artifactId>database</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>database01</name>
+	<name>database</name>
 	<description>Demo project for connecting to a Database; deps Lombok, H2, JDBC</description>
 	<url/>
 	<licenses>

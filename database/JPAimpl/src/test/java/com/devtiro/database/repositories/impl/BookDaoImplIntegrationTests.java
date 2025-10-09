@@ -1,5 +1,5 @@
 /*
-package com.devtiro.database01.dao.impl;
+package com.devtiro.database.dao.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

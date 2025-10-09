@@ -1,4 +1,4 @@
-package com.devtiro.database01;
+package com.devtiro.database;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,17 +10,17 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 @Log
-public class Database01Application implements CommandLineRunner {
+public class DatabaseApplication implements CommandLineRunner {
 
   //ConstructorInjection of DataSource
   private final DataSource dataSource;
 
-  public Database01Application(final DataSource dataSource) {
+  public DatabaseApplication(final DataSource dataSource) {
     this.dataSource = dataSource;
   }
 
   //Main method
-	public static void main(String[] args) { SpringApplication.run(Database01Application.class, args); }
+	public static void main(String[] args) { SpringApplication.run(DatabaseApplication.class, args); }
 
   @Override
   public void run(final String... args) {

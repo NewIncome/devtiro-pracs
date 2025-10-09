@@ -1,10 +1,10 @@
-package com.devtiro.database01;
+package com.devtiro.database;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Database01ApplicationTests {
+class DatabaseApplicationTests {
 
 	@Test
 	void contextLoads() {
