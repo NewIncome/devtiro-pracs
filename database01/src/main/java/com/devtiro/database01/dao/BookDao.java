@@ -15,4 +15,6 @@ public interface BookDao {
 
   List<Book> find();  //3. Declare the new method in the domain. Test for error for no-implementation. Then implement
 
+  void update(String isbn, Book book);
+
 }
