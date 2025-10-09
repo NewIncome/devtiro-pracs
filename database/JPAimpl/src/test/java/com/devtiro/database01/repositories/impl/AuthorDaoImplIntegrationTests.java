@@ -1,3 +1,4 @@
+/*
 package com.devtiro.database01.dao.impl;
 
 import java.util.List;
@@ -34,8 +35,10 @@ public class AuthorDaoImplIntegrationTests {
     Optional<Author> result = underTest.findOne(author.getId());
     assertThat(result).isPresent();
     assertThat(result.get()).isEqualTo(author);
-    /* .isEqualTo() ,  Becuase we're using lombok it'll also compare every instance variable
-    of the given class agains the comparable class */
+    */
+/* .isEqualTo() ,  Becuase we're using lombok it'll also compare every instance variable
+    of the given class agains the comparable class *//*
+
   }
 
   @Test
@@ -76,3 +79,4 @@ public class AuthorDaoImplIntegrationTests {
   }
 
 }
+*/

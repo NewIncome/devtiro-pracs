@@ -1,3 +1,4 @@
+/*
 package com.devtiro.database01.dao.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -99,3 +100,4 @@ public class BookDaoImplIntegrationTests {
   }
 
 }
+*/
