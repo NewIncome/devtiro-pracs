@@ -3,8 +3,10 @@ package com.devtiro.database.repositories;
 import java.util.List;
 import java.util.Optional;
 
+import com.devtiro.database.config.CustomContextBanner;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 //import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AuthorRepositoryIntegrationTests {
 
   private AuthorRepository underTest; //reference to the class under testing
+
+  // Static block to set custom banner for test context
+  static {
+    SpringApplication app = new SpringApplication(AuthorRepositoryIntegrationTests.class);
+    app.setBanner(new CustomContextBanner());
+  }
 
   @Autowired    //Annotation necessary in tests
   public AuthorRepositoryIntegrationTests(AuthorRepository underTest) { //Constructor Injection
