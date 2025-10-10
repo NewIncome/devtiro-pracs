@@ -49,4 +49,6 @@ public final class TestDataUtil {   //final, usual patter for utility classes
           .build();
   }
 
+  //Methods and field for BANNERS
+
 }

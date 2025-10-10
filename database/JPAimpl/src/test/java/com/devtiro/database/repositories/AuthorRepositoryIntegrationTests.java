@@ -1,33 +1,25 @@
 package com.devtiro.database.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
-import com.devtiro.database.config.CustomContextBanner;
+import com.devtiro.database.config.CustomTestListener;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-//import org.springframework.transaction.annotation.Transactional;
 
 import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.domain.Author;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@Transactional    //Manages database transactions and rollbacks
 @SpringBootTest   // Loads Spring context, includes @SpringExtension. To startup a test version of our application when our test runs
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)  //Use when a test alters the Spring application context
+@ExtendWith(CustomTestListener.class)
 public class AuthorRepositoryIntegrationTests {
 
   private AuthorRepository underTest; //reference to the class under testing
-
-  // Static block to set custom banner for test context
-  static {
-    SpringApplication app = new SpringApplication(AuthorRepositoryIntegrationTests.class);
-    app.setBanner(new CustomContextBanner());
-  }
 
   @Autowired    //Annotation necessary in tests
   public AuthorRepositoryIntegrationTests(AuthorRepository underTest) { //Constructor Injection
