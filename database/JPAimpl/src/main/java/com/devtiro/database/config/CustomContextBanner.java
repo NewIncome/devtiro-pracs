@@ -1,6 +1,7 @@
 package com.devtiro.database.config;
 
 import org.springframework.boot.Banner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
 import java.io.PrintStream;
@@ -10,7 +11,7 @@ public class CustomContextBanner implements Banner {
 
   @Override
   public void printBanner(Environment environment, Class<?> sourceClass, PrintStream out) {
-    String appName = environment.getProperty("spring.application.name", "Unknown App");
+    String appName = environment.getProperty("spring.application.name", "Database with JPA App");
     String bootVersion = org.springframework.boot.SpringBootVersion.getVersion();
     String timestamp = LocalDateTime.now().toString();
 
