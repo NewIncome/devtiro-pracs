@@ -1,5 +1,4 @@
-/*
-package com.devtiro.database.dao.impl;
+package com.devtiro.database.repositories;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,20 +9,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 //import org.springframework.transaction.annotation.Transactional;
 
-import com.devtiro.database01.TestDataUtil;
-import com.devtiro.database01.domain.Author;
+import com.devtiro.database.TestDataUtil;
+import com.devtiro.database.domain.Author;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 //@Transactional    //Manages database transactions and rollbacks
 @SpringBootTest   // Loads Spring context, includes @SpringExtension. To startup a test version of our application when our test runs
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)  //Use when a test alters the Spring application context
-public class AuthorDaoImplIntegrationTests {
+public class AuthorRepositoryIntegrationTests {
 
-  private AuthorDaoImpl underTest; //reference to the class under testing
+  private AuthorRepository underTest; //reference to the class under testing
 
   @Autowired    //Annotation necessary in tests
-  public AuthorDaoImplIntegrationTests(AuthorDaoImpl underTest) { //Constructor Injection
+  public AuthorRepositoryIntegrationTests(AuthorRepository underTest) { //Constructor Injection
     this.underTest = underTest;
   }
 
@@ -31,17 +30,14 @@ public class AuthorDaoImplIntegrationTests {
   public void testThatAuthorCanBeCreatedAndRecalled() {
 
     Author author = TestDataUtil.createTestAuthorA();
-    underTest.create(author);
-    Optional<Author> result = underTest.findOne(author.getId());
+    underTest.save(author);
+    Optional<Author> result = underTest.findById(author.getId());
     assertThat(result).isPresent();
     assertThat(result.get()).isEqualTo(author);
-    */
-/* .isEqualTo() ,  Becuase we're using lombok it'll also compare every instance variable
-    of the given class agains the comparable class *//*
 
   }
 
-  @Test
+  /*@Test
   public void testThatMultipleAuthorsCanBeCreatedAndRecalled() {
     Author authorA = TestDataUtil.createTestAuthorA();
     underTest.create(authorA);    //creates the author in the DB
@@ -76,7 +72,6 @@ public class AuthorDaoImplIntegrationTests {
     underTest.delete(author.getId());
     Optional<Author> result = underTest.findOne(author.getId());
     assertThat(result).isEmpty();
-  }
+  }*/
 
 }
-*/
