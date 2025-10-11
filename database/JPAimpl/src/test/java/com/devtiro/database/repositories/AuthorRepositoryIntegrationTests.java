@@ -12,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.domain.Author;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.devtiro.database.testutils.AssertJListener.assertThat;
 
 @SpringBootTest   // Loads Spring context, includes @SpringExtension. To startup a test version of our application when our test runs
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)  //Use when a test alters the Spring application context
