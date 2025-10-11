@@ -50,5 +50,46 @@ public final class TestDataUtil {   //final, usual patter for utility classes
   }
 
   //Methods and field for BANNERS
+  public static String testClassDAT(String testMethodPackage, String testMethodClass, String timestamp) {
+    return """
+        \u001B[31m=============================
+        ░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀█░█▀▀░█▀▀           \s
+        ░█░█░█▀█░░█░░█▀█░█▀▄░█▀█░▀▀█░█▀▀           \s
+        ░▀▀░░▀░▀░░▀░░▀░▀░▀▀░░▀░▀░▀▀▀░▀▀▀           \s
+        ░█▀█░█▀█░█▀█░█░░░▀█▀░█▀▀░█▀█░▀█▀░▀█▀░█▀█░█▀█
+        ░█▀█░█▀▀░█▀▀░█░░░░█░░█░░░█▀█░░█░░░█░░█░█░█░█
+        ░▀░▀░▀░░░▀░░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀
+        ░▀█▀░█▀▀░█▀▀░▀█▀░█▀▀                       \s
+        ░░█░░█▀▀░▀▀█░░█░░▀▀█                       \s
+        ░░▀░░▀▀▀░▀▀▀░░▀░░▀▀▀                       \s
+        \u001B[0m=============================
+        Package: %s
+        Class: %s
+        Executed At: %s
+        \u001B[31m=============================\u001B[0m
+        """.formatted(testMethodPackage, testMethodClass,  timestamp);
+  }
+  public static String testClassARIT(String testMethodPackage, String testMethodClass, String timestamp) {
+    return """
+        \u001B[31m=============================
+        ░█▀█░█░█░▀█▀░█░█░█▀█░█▀▄                   \s
+        ░█▀█░█░█░░█░░█▀█░█░█░█▀▄                   \s
+        ░▀░▀░▀▀▀░░▀░░▀░▀░▀▀▀░▀░▀                   \s
+        ░█▀▄░█▀▀░█▀█░█▀█░█▀▀░▀█▀░▀█▀░█▀█░█▀▄░█░█   \s
+        ░█▀▄░█▀▀░█▀▀░█░█░▀▀█░░█░░░█░░█░█░█▀▄░░█░   \s
+        ░▀░▀░▀▀▀░▀░░░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░░▀░   \s
+        ░▀█▀░█▀█░▀█▀░█▀▀░█▀▀░█▀▄░█▀█░▀█▀░▀█▀░█▀█░█▀█
+        ░░█░░█░█░░█░░█▀▀░█░█░█▀▄░█▀█░░█░░░█░░█░█░█░█
+        ░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀
+        ░▀█▀░█▀▀░█▀▀░▀█▀░█▀▀                       \s
+        ░░█░░█▀▀░▀▀█░░█░░▀▀█                       \s
+        ░░▀░░▀▀▀░▀▀▀░░▀░░▀▀▀                       \s
+        \u001B[0m=============================
+        Package: %s
+        Class: %s
+        Executed At: %s
+        \u001B[31m=============================\u001B[0m
+        """.formatted(testMethodPackage, testMethodClass,  timestamp);
+  }
 
 }

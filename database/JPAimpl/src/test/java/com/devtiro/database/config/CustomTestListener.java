@@ -1,5 +1,6 @@
 package com.devtiro.database.config;
 
+import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.testutils.AssertJListener;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
@@ -18,22 +19,20 @@ public class CustomTestListener implements TestExecutionListener, TestWatcher, B
 
   @Override
   public void beforeTestClass(TestContext testContext) throws Exception {
-    String testMethodClass = testContext.getTestClass().getName();
+    String testMethodClass = testContext.getTestClass().getSimpleName();
+    String testMethodPackage = testContext.getTestClass().getPackageName();
     String timestamp = LocalDateTime.now().toString();
 
-    String banner = """
-            \u001B[31m=============================
-            ░█▀▀░█▀█░█▀▄░▀█▀░█▀█░█▀▀░▀█▀░█▀▀░█▀▀░▀█▀
-            ░▀▀█░█▀▀░█▀▄░░█░░█░█░█░█░░█░░█▀▀░▀▀█░░█░
-            ░▀▀▀░▀░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░▀░░▀▀▀░▀▀▀░░▀░
-            ░█▀▀░█░░░█▀█░█▀▀░█▀▀░░░█░░░█▀█░█▀█░█▀▄░█▀▀░█▀▄
-            ░█░░░█░░░█▀█░▀▀█░▀▀█░░░█░░░█░█░█▀█░█░█░█▀▀░█░█
-            ░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀▀░░▀▀▀░▀▀░
-            \u001B[0m=============================
-            Class: %s
-            Executed At: %s
-            \u001B[31m=============================\u001B[0m
-            """.formatted(testMethodClass, timestamp);
+    /* Switch "Expression", which produces a value (Java 14+).
+    Or could use a normal switch statement (which executes code blocks) */
+    String banner = switch (testMethodClass) {
+      case "DatabaseApplicationTests" ->
+          TestDataUtil.testClassDAT(testMethodClass, testMethodPackage, timestamp);
+      case "AuthorRepositoryIntegrationTests" ->
+          TestDataUtil.testClassARIT(testMethodPackage, testMethodClass, timestamp);
+      default ->
+          "No name?..";
+    };
 
     System.out.println(banner);
   }
