@@ -1,4 +1,3 @@
-/*
 package com.devtiro.database.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,39 +10,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devtiro.database01.TestDataUtil;
-import com.devtiro.database01.domain.Author;
-import com.devtiro.database01.domain.Book;
+import com.devtiro.database.TestDataUtil;
+import com.devtiro.database.domain.Author;
+import com.devtiro.database.domain.Book;
 
 @SpringBootTest
 @Transactional
-public class BookDaoImplIntegrationTests {
+public class BookRepositoryIntegrationTests {
 
-  private AuthorDaoImpl authorDao;
-
-  private BookDaoImpl underTest;
+  private BookRepository underTest;
 
   @Autowired
-  public BookDaoImplIntegrationTests(BookDaoImpl underTest, AuthorDaoImpl authorDao) {
+  public BookRepositoryIntegrationTests(BookRepository underTest) {
     this.underTest = underTest;
-    this.authorDao = authorDao;
   }
 
   @Test
   public void testThatBookCanBeCreatedAndRecalled() {
     Author author = TestDataUtil.createTestAuthorA();
-    authorDao.create(author);
+    Book book = TestDataUtil.createTestBookA(author);
+    underTest.save(book);
 
-    Book book = TestDataUtil.createTestBookA();
-    book.setAuthorId(author.getId());
-    underTest.create(book);
-
-    Optional<Book> result = underTest.findOne(book.getIsbn());
+    Optional<Book> result = underTest.findById(book.getIsbn());
     assertThat(result).isPresent();
     assertThat(result.get()).isEqualTo(book);
   }
 
-  @Test
+  /*@Test
   public void testThatMultipleBooksCanBeCreatedAndRecalled() {  //7. Create the test against the DB data
     Author author = TestDataUtil.createTestAuthorA();
     authorDao.create(author);
@@ -97,7 +90,6 @@ public class BookDaoImplIntegrationTests {
     underTest.delete(book.getIsbn());
     Optional<Book> result = underTest.findOne(book.getIsbn());
     assertThat(result).isEmpty();
-  }
+  }*/
 
 }
-*/
