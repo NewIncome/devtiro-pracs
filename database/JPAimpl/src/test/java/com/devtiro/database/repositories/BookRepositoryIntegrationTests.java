@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devtiro.database.TestDataUtil;
@@ -28,22 +30,26 @@ public class BookRepositoryIntegrationTests {
     this.authorRepository = authorRepository;
   }
 
-  @BeforeEach
+  /* @BeforeEach
   void setUp() {
     underTest.deleteAll();
-  }
+  } */
 
   @Test
   public void testThatBookCanBeCreatedAndRecalled() {
+    System.out.println("\n  -- L O G G I N G !! --");
+    System.out.println("  -- Before TestDataUtil.createTestAuthorA()\n  -- Author.findAll: " + authorRepository.findAll().toString());
     Author author = TestDataUtil.createTestAuthorA();
-    authorRepository.save(author);
+    authorRepository.save(author);    //I use this line because the book's author doesn't have an Id
     Book book = TestDataUtil.createTestBookA(author);
-    //System.out.println("  -- L O G G I N G !! --");
+    System.out.println("  -- Book.findAll: " + underTest.findAll().toString() + "\n");
+    System.out.println("  -- After TestDataUtil.createTestBookA()\n  -- BuiltBook: " + book.toString() + "\n");
     //System.out.println("BeforeSave\nAuthor: " + author.toString() + ", Book: " + book.toString());
     underTest.save(book);
     //System.out.println("AfterSave\nAuthor: " + author.toString() + ", Book: " + book.toString());
 
     Optional<Book> result = underTest.findById(book.getIsbn());
+    System.out.println("Result\nAuthor: " + result.toString() + "\n");
     assertThat(result).isPresent();
     assertThat(result.get()).isEqualTo(book);
   }
