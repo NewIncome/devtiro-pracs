@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
+import org.hibernate.engine.jdbc.env.internal.LobCreationLogging_.logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.domain.Author;
 import com.devtiro.database.domain.Book;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @SpringBootTest
 @Transactional
 public class BookRepositoryIntegrationTests {
@@ -37,19 +41,19 @@ public class BookRepositoryIntegrationTests {
 
   @Test
   public void testThatBookCanBeCreatedAndRecalled() {
-    System.out.println("\n  -- L O G G I N G !! --");
-    System.out.println("  -- Before TestDataUtil.createTestAuthorA()\n  -- Author.findAll: " + authorRepository.findAll().toString());
+    log.info("\n  -- L O G G I N G !! --");
+    log.info("  -- Before TestDataUtil.createTestAuthorA()\n  -- Author.findAll: " + authorRepository.findAll().toString());
     Author author = TestDataUtil.createTestAuthorA();
     authorRepository.save(author);    //I use this line because the book's author doesn't have an Id
     Book book = TestDataUtil.createTestBookA(author);
-    System.out.println("  -- Book.findAll: " + underTest.findAll().toString() + "\n");
-    System.out.println("  -- After TestDataUtil.createTestBookA()\n  -- BuiltBook: " + book.toString() + "\n");
-    //System.out.println("BeforeSave\nAuthor: " + author.toString() + ", Book: " + book.toString());
+    log.info("  -- Book.findAll: " + underTest.findAll().toString() + "\n");
+    log.info("  -- After TestDataUtil.createTestBookA()\n  -- BuiltBook: " + book.toString() + "\n");
+    //log.info("BeforeSave\nAuthor: " + author.toString() + ", Book: " + book.toString());
     underTest.save(book);
-    //System.out.println("AfterSave\nAuthor: " + author.toString() + ", Book: " + book.toString());
+    //log.info("AfterSave\nAuthor: " + author.toString() + ", Book: " + book.toString());
 
     Optional<Book> result = underTest.findById(book.getIsbn());
-    System.out.println("Result\nAuthor: " + result.toString() + "\n");
+    log.info("Result\nAuthor: " + result.toString() + "\n");
     assertThat(result).isPresent();
     assertThat(result.get()).isEqualTo(book);
   }
