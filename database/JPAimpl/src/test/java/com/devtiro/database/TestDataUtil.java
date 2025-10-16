@@ -9,7 +9,6 @@ public final class TestDataUtil {   //final, usual patter for utility classes
   }
 
   public static Author createTestAuthorA() {
-    System.out.println("  -- createTestAuthorA is being called!! --");
     return Author.builder()
             //.id(1L)
             .name("Abigail Rose")

@@ -2,9 +2,9 @@ package com.devtiro.database.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,16 +20,28 @@ public class BookRepositoryIntegrationTests {
 
   private BookRepository underTest;
 
+  private AuthorRepository authorRepository;
+
   @Autowired
-  public BookRepositoryIntegrationTests(BookRepository underTest) {
+  public BookRepositoryIntegrationTests(BookRepository underTest, AuthorRepository authorRepository) {
     this.underTest = underTest;
+    this.authorRepository = authorRepository;
+  }
+
+  @BeforeEach
+  void setUp() {
+    underTest.deleteAll();
   }
 
   @Test
   public void testThatBookCanBeCreatedAndRecalled() {
     Author author = TestDataUtil.createTestAuthorA();
+    authorRepository.save(author);
     Book book = TestDataUtil.createTestBookA(author);
+    //System.out.println("  -- L O G G I N G !! --");
+    //System.out.println("BeforeSave\nAuthor: " + author.toString() + ", Book: " + book.toString());
     underTest.save(book);
+    //System.out.println("AfterSave\nAuthor: " + author.toString() + ", Book: " + book.toString());
 
     Optional<Book> result = underTest.findById(book.getIsbn());
     assertThat(result).isPresent();
