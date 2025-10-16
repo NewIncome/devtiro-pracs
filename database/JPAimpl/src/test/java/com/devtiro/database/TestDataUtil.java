@@ -9,22 +9,23 @@ public final class TestDataUtil {   //final, usual patter for utility classes
   }
 
   public static Author createTestAuthorA() {
+    System.out.println("  -- createTestAuthorA is being called!! --");
     return Author.builder()
-            .id(1L)
+            //.id(1L)
             .name("Abigail Rose")
             .age(80)
             .build();
   }
   public static Author createTestAuthorB() {
     return Author.builder()
-            .id(2L)
+            //.id(2L)
             .name("Thomas Cronin")
             .age(44)
             .build();
   }
   public static Author createTestAuthorC() {
     return Author.builder()
-            .id(3L)
+            //.id(3L)
             .name("Jesse A Casey")
             .age(24)
             .build();
@@ -50,49 +51,6 @@ public final class TestDataUtil {   //final, usual patter for utility classes
           .title("The Last Ember")
           .author(author)
           .build();
-  }
-
-  //Methods and field for BANNERS
-  public static String testClassDAT(String testMethodPackage, String testMethodClass, String timestamp) {
-    return """
-        \u001B[31m=============================
-        ░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀█░█▀▀░█▀▀           \s
-        ░█░█░█▀█░░█░░█▀█░█▀▄░█▀█░▀▀█░█▀▀           \s
-        ░▀▀░░▀░▀░░▀░░▀░▀░▀▀░░▀░▀░▀▀▀░▀▀▀           \s
-        ░█▀█░█▀█░█▀█░█░░░▀█▀░█▀▀░█▀█░▀█▀░▀█▀░█▀█░█▀█
-        ░█▀█░█▀▀░█▀▀░█░░░░█░░█░░░█▀█░░█░░░█░░█░█░█░█
-        ░▀░▀░▀░░░▀░░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀
-        ░▀█▀░█▀▀░█▀▀░▀█▀░█▀▀                       \s
-        ░░█░░█▀▀░▀▀█░░█░░▀▀█                       \s
-        ░░▀░░▀▀▀░▀▀▀░░▀░░▀▀▀                       \s
-        \u001B[0m=============================
-        Package: %s
-        Class: %s
-        Executed At: %s
-        \u001B[31m=============================\u001B[0m
-        """.formatted(testMethodPackage, testMethodClass,  timestamp);
-  }
-  public static String testClassARIT(String testMethodPackage, String testMethodClass, String timestamp) {
-    return """
-        \u001B[31m=============================
-        ░█▀█░█░█░▀█▀░█░█░█▀█░█▀▄                   \s
-        ░█▀█░█░█░░█░░█▀█░█░█░█▀▄                   \s
-        ░▀░▀░▀▀▀░░▀░░▀░▀░▀▀▀░▀░▀                   \s
-        ░█▀▄░█▀▀░█▀█░█▀█░█▀▀░▀█▀░▀█▀░█▀█░█▀▄░█░█   \s
-        ░█▀▄░█▀▀░█▀▀░█░█░▀▀█░░█░░░█░░█░█░█▀▄░░█░   \s
-        ░▀░▀░▀▀▀░▀░░░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░░▀░   \s
-        ░▀█▀░█▀█░▀█▀░█▀▀░█▀▀░█▀▄░█▀█░▀█▀░▀█▀░█▀█░█▀█
-        ░░█░░█░█░░█░░█▀▀░█░█░█▀▄░█▀█░░█░░░█░░█░█░█░█
-        ░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀
-        ░▀█▀░█▀▀░█▀▀░▀█▀░█▀▀                       \s
-        ░░█░░█▀▀░▀▀█░░█░░▀▀█                       \s
-        ░░▀░░▀▀▀░▀▀▀░░▀░░▀▀▀                       \s
-        \u001B[0m=============================
-        Package: %s
-        Class: %s
-        Executed At: %s
-        \u001B[31m=============================\u001B[0m
-        """.formatted(testMethodPackage, testMethodClass,  timestamp);
   }
 
 }

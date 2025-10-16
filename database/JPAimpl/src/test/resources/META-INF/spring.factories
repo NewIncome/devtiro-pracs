@@ -1,2 +1,0 @@
-# to register the CustomTestListener for custom banner usage
-org.springframework.test.context.TestExecutionListener=com.devtiro.database.config.CustomTestListener
