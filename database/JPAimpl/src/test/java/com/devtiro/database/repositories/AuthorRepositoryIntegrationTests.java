@@ -72,7 +72,7 @@ public class AuthorRepositoryIntegrationTests {
     Author author = TestDataUtil.createTestAuthorA();
     underTest.save(author);
 
-    underTest.delete(author);
+    underTest.deleteById(author.getId());
     Optional<Author> result = underTest.findById(author.getId());
     assertThat(result).isEmpty();
   }

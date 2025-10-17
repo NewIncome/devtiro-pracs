@@ -44,7 +44,8 @@ public class BookRepositoryIntegrationTests {
     log.info("\n  -- L O G G I N G !! --");
     log.info("  -- Before TestDataUtil.createTestAuthorA()\n  -- Author.findAll: " + authorRepository.findAll().toString());
     Author author = TestDataUtil.createTestAuthorA();
-    authorRepository.save(author);    //I use this line because the book's author doesn't have an Id
+
+    //The Author will be created by the Cascading
     Book book = TestDataUtil.createTestBookA(author);
     log.info("  -- Book.findAll: " + underTest.findAll().toString() + "\n");
     log.info("  -- After TestDataUtil.createTestBookA()\n  -- BuiltBook: " + book.toString() + "\n");
@@ -61,8 +62,8 @@ public class BookRepositoryIntegrationTests {
   @Test
   public void testThatMultipleBooksCanBeCreatedAndRecalled() {  //7. Create the test against the DB data
     Author author = TestDataUtil.createTestAuthorA();
-    authorRepository.save(author);
 
+    //The Author will be created by the Cascading
     Book bookA = TestDataUtil.createTestBookA(author);
     underTest.save(bookA);
     Book bookB = TestDataUtil.createTestBookB(author);
@@ -80,9 +81,8 @@ public class BookRepositoryIntegrationTests {
   public void testThatBookCanBeUpdated() {
     //create the author for the book
     Author author = TestDataUtil.createTestAuthorA();
-    authorRepository.save(author);
 
-    //create the book template, then set the author_id, then create the book row in DB
+    //The Author will be created by the Cascading
     Book book = TestDataUtil.createTestBookA(author);
     underTest.save(book);
 
@@ -99,12 +99,12 @@ public class BookRepositoryIntegrationTests {
   @Test
   public void testThatBookCanBeDeleted() {
     Author author = TestDataUtil.createTestAuthorA();
-    authorRepository.save(author);
 
+    //The Author will be created by the Cascading
     Book book = TestDataUtil.createTestBookA(author);
     underTest.save(book);
 
-    underTest.delete(book);
+    underTest.deleteById(book.getIsbn());
     Optional<Book> result = underTest.findById(book.getIsbn());
     assertThat(result).isEmpty();
   }
