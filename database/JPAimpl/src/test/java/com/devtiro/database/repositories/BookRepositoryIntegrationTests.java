@@ -76,23 +76,22 @@ public class BookRepositoryIntegrationTests {
             .contains(bookA, bookB, bookC);
   }
 
-  /*@Test
+  @Test
   public void testThatBookCanBeUpdated() {
     //create the author for the book
     Author author = TestDataUtil.createTestAuthorA();
-    authorDao.create(author);
+    authorRepository.save(author);
 
     //create the book template, then set the author_id, then create the book row in DB
-    Book book = TestDataUtil.createTestBookA();
-    book.setAuthorId(author.getId());
-    underTest.create(book);
+    Book book = TestDataUtil.createTestBookA(author);
+    underTest.save(book);
 
     //call the new 'update' feat
     book.setTitle("UPDATED");
-    underTest.update(book.getIsbn(), book);
+    underTest.save(book);
 
     //test/assert the feat
-    Optional<Book> result = underTest.findOne(book.getIsbn());
+    Optional<Book> result = underTest.findById(book.getIsbn());
     assertThat(result).isPresent();
     assertThat(result.get()).isEqualTo(book);
   }
@@ -100,15 +99,14 @@ public class BookRepositoryIntegrationTests {
   @Test
   public void testThatBookCanBeDeleted() {
     Author author = TestDataUtil.createTestAuthorA();
-    authorDao.create(author);
+    authorRepository.save(author);
 
-    Book book = TestDataUtil.createTestBookA();
-    book.setAuthorId(author.getId());
-    underTest.create(book);
+    Book book = TestDataUtil.createTestBookA(author);
+    underTest.save(book);
 
-    underTest.delete(book.getIsbn());
-    Optional<Book> result = underTest.findOne(book.getIsbn());
+    underTest.delete(book);
+    Optional<Book> result = underTest.findById(book.getIsbn());
     assertThat(result).isEmpty();
-  }*/
+  }
 
 }
