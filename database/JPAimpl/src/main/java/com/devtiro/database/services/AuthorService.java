@@ -1,9 +1,9 @@
 package com.devtiro.database.services;
 
-import com.devtiro.database.domain.Author;
+import com.devtiro.database.domain.entities.AuthorEntity;
 
 public interface AuthorService {
 
-  Author createAuthor(Author author);
+  AuthorEntity createAuthor(AuthorEntity author);
 
 }

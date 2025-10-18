@@ -1,4 +1,4 @@
-package com.devtiro.database.domain;
+package com.devtiro.database.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder        //...explain...
 @Entity   //label object as an Entity that can be used with Soring Data Jpa
 @Table(name = "authors")  //to define which table it maps to in the DB
-public class Author {
+public class AuthorEntity {
   
   //with long it would default to '0', with object it defaults to 'null'
   @Id   //to define the field as the PrimaryKey of the entity/table
