@@ -12,7 +12,7 @@ package com.devtiro.database.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devtiro.database.domain.Author;
+import com.devtiro.database.domain.dto.AuthorDto;
 import com.devtiro.database.services.AuthorService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,9 +32,16 @@ public class AuthorController {
 
 
   @PostMapping(path = "/authors")
-  public Author createAuthor(@RequestBody Author author) {
+  public AuthorDto createAuthor(@RequestBody AuthorDto author) {
     //call to the ServiceLayer
 
+    /* It's ok for the Service-layer to deal with Entities, it's your business logic
+       so some knowledge of the underlying entities that the persistence layer uses
+       It's debatable and up to the Coder
+       But a rule is to definitely seperate the Presentation, Service & Persistance layers
+
+       Therefor we need to convert our Dto to an Entity in this class
+     */
     return authorService.createAuthor(author);
   }
   
