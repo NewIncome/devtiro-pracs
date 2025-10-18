@@ -12,7 +12,30 @@ package com.devtiro.database.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devtiro.database.domain.Author;
+import com.devtiro.database.services.AuthorService;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
+//It's need to work on all our EndPoints
 @RestController
 public class AuthorController {
-  //It's need to work on all our EndPoints
+
+  //Injecting the AuthorService to further use it
+  private AuthorService authorService;
+
+  public AuthorController(AuthorService authorService) {
+    this.authorService = authorService;
+  }
+
+
+  @PostMapping(path = "/authors")
+  public Author createAuthor(@RequestBody Author author) {
+    //call to the ServiceLayer
+
+    return authorService.createAuthor(author);
+  }
+  
 }
