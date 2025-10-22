@@ -10,6 +10,8 @@
  */
 package com.devtiro.database.controllers;
 
+import com.devtiro.database.domain.entities.AuthorEntity;
+import com.devtiro.database.mappers.Mapper;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devtiro.database.domain.dto.AuthorDto;
@@ -26,14 +28,13 @@ public class AuthorController {
   //Injecting the AuthorService to further use it
   private AuthorService authorService;
 
-  public AuthorController(AuthorService authorService) {
+  private Mapper<AuthorEntity, AuthorDto> authorMapper;
+
+  public AuthorController(AuthorService authorService, Mapper<AuthorEntity, AuthorDto> authorMapper) {
     this.authorService = authorService;
+    this.authorMapper = authorMapper;
   }
 
-
-  @PostMapping(path = "/authors")
-  public AuthorDto createAuthor(@RequestBody AuthorDto author) {
-    //call to the ServiceLayer
 
     /* It's ok for the Service-layer to deal with Entities, it's your business logic
        so some knowledge of the underlying entities that the persistence layer uses
@@ -42,7 +43,12 @@ public class AuthorController {
 
        Therefor we need to convert our Dto to an Entity in this class
      */
-    return authorService.createAuthor(author);
+    //call to the ServiceLayer
+  @PostMapping(path = "/authors")
+  public AuthorDto createAuthor(@RequestBody AuthorDto author) {
+    AuthorEntity authorEntity = authorMapper.mapFrom(author);
+    AuthorEntity savedAuthorEntity = authorService.createAuthor(authorEntity);
+    return authorMapper.mapTo(savedAuthorEntity);
   }
   
 }
