@@ -4,6 +4,6 @@ import com.devtiro.database.domain.entities.AuthorEntity;
 
 public interface AuthorService {
 
-  AuthorEntity createAuthor(AuthorEntity author);
+  AuthorEntity createAuthor(AuthorEntity authorEntity);
 
 }
