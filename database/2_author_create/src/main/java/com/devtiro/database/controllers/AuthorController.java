@@ -28,4 +28,7 @@ public class AuthorController {
         AuthorEntity savedAuthorEntity = authorService.save(authorEntity);
         return new ResponseEntity<>(authorMapper.mapTo(savedAuthorEntity), HttpStatus.CREATED);
     }
+    /* ResponseEntity<> allows to control things like the StatusCode of the response
+     *   new ResponseEntity<>(ourObject, HttpStatus.CREATED)
+     */
 }
