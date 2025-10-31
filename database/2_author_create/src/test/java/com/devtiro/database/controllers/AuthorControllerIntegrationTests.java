@@ -2,7 +2,6 @@ package com.devtiro.database.controllers;
 
 import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.domain.entities.AuthorEntity;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,14 +19,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc   //Creates instances of MockMVC and places in our TestContext, suited for Controllers
-public class AuthorControllerIntegrationTest {
+public class AuthorControllerIntegrationTests {
 
   private MockMvc mockMvn;
 
   private ObjectMapper objectMapper;
 
   @Autowired
-  public AuthorControllerIntegrationTest(MockMvc mockMvn, ObjectMapper objectMapper) {
+  public AuthorControllerIntegrationTests(MockMvc mockMvn, ObjectMapper objectMapper) {
     this.mockMvn = mockMvn;
     this.objectMapper = new ObjectMapper();
   }

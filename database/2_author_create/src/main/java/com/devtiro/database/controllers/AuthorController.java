@@ -1,3 +1,12 @@
+/**
+ * AuthorController End-Points
+ *  POST    /authors        //Create 1 author; response->HTTP:201 + authorJson
+ *  GET     /authors/{id}   //Read 1 author; response-> HTTP:200 + authorJson
+ *  GET     /authors          //ReadMany authors; always response-> HTTP:200 + emptyList || authorListJson
+ *  PUT     /authors/{id}   //FullUpdate; response-> HTTP:200 + authorJson
+ *  PATCH   /authors/{id}   //PartialUpdate; response-> HTTP:200 + authorJson
+ *  DELETE  /authors/{id}   //Delete; response-> HTTP:204 + noBody
+ */
 package com.devtiro.database.controllers;
 
 import com.devtiro.database.domain.dto.AuthorDto;
