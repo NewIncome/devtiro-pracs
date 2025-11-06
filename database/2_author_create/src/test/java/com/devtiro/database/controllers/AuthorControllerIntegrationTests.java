@@ -43,7 +43,7 @@ public class AuthorControllerIntegrationTests {
         MockMvcRequestBuilders
             .post("/authors")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(authorJson)
+            .content(authorJson)  //for the RequestBody, .content("json String")
     ).andExpect(    //this is how you add assertions; and you need a ResultMatcher
         MockMvcResultMatchers.status().isCreated()
     );
