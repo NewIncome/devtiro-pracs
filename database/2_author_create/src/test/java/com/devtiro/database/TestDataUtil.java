@@ -1,6 +1,7 @@
 package com.devtiro.database;
 
 import com.devtiro.database.domain.dto.AuthorDto;
+import com.devtiro.database.domain.dto.BookDto;
 import com.devtiro.database.domain.entities.AuthorEntity;
 import com.devtiro.database.domain.entities.BookEntity;
 
@@ -46,6 +47,14 @@ public final class TestDataUtil {
                 .title("The Shadow in the Attic")
                 .authorEntity(authorEntity)
                 .build();
+    }
+
+    public static BookDto createTestBookDtoA(final AuthorDto author) {
+      return BookDto.builder()
+          .isbn("978-1-2345-6789-0")
+          .title("The Shadow in the Attic")
+          .author(author)
+          .build();
     }
 
     public static BookEntity createTestBookB(final AuthorEntity authorEntity) {
