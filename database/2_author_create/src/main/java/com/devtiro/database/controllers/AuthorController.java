@@ -15,29 +15,43 @@ import com.devtiro.database.mappers.Mapper;
 import com.devtiro.database.services.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 public class AuthorController {
 
-    private AuthorService authorService;
+  private AuthorService authorService;
 
-    private Mapper<AuthorEntity, AuthorDto> authorMapper;
+  private Mapper<AuthorEntity, AuthorDto> authorMapper;
 
-    public AuthorController(AuthorService authorService, Mapper<AuthorEntity, AuthorDto> authorMapper) {
-        this.authorService = authorService;
-        this.authorMapper = authorMapper;
-    }
+  public AuthorController(AuthorService authorService, Mapper<AuthorEntity, AuthorDto> authorMapper) {
+      this.authorService = authorService;
+      this.authorMapper = authorMapper;
+  }
 
-    @PostMapping(path = "/authors")
-    public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto author) {
-        AuthorEntity authorEntity = authorMapper.mapFrom(author);
-        AuthorEntity savedAuthorEntity = authorService.save(authorEntity);
-        return new ResponseEntity<>(authorMapper.mapTo(savedAuthorEntity), HttpStatus.CREATED);
-    }
-    /* ResponseEntity<> allows to control things like the StatusCode of the response
-     *   new ResponseEntity<>(ourObject, HttpStatus.CREATED)
-     */
+  @PostMapping(path = "/authors")
+  public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto author) {
+      AuthorEntity authorEntity = authorMapper.mapFrom(author);
+      AuthorEntity savedAuthorEntity = authorService.save(authorEntity);
+      return new ResponseEntity<>(authorMapper.mapTo(savedAuthorEntity), HttpStatus.CREATED);
+  }
+  /* ResponseEntity<> allows to control things like the StatusCode of the response
+   *   new ResponseEntity<>(ourObject, HttpStatus.CREATED)
+   */
+
+  //To create the ReadMany-endpoints(List)
+  @GetMapping("/authors")
+  public List<AuthorDto> listAuthors() {
+    List<AuthorEntity> authors = authorService.findAll();  //that's what we receive from querying the DB
+    return authors.stream()
+            .map(authorMapper::mapTo)
+            .collect(Collectors.toList());
+  }
+
 }
