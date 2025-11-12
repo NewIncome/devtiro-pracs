@@ -1,0 +1,70 @@
+package com.devtiro.database.controllers;
+
+import com.devtiro.database.TestDataUtil;
+import com.devtiro.database.domain.dto.BookDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+@SpringBootTest  //SpringBootContextLoader as the default ContextLoader when no specific @ContextConfiguratio
+/*SpringExtension integrates the Spring TestContext Framework into JUnit 5's Jupiter programming model*/
+@ExtendWith(SpringExtension.class)  //to make sure everything is nice and integrated
+/*Test annotation which indicates that the ApplicationContext associated with a test is dirty and should therefore be closed and removed from the context cache*/
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)  //so our DB is clean after each test
+@AutoConfigureMockMvc //so we can handle MVC mocked context
+public class BookControllerIntegrationTests {
+
+  private MockMvc mockMvc;
+
+  private ObjectMapper objectMapper;  //because we need a jsonObject to create a Book
+
+  /*Marks a constructor, field, setter method, or config method as to be autowired by Spring's dependency injection facilities*/
+  @Autowired
+  public BookControllerIntegrationTests(MockMvc mockMvc, ObjectMapper objectMapper) {
+    this.mockMvc = mockMvc;
+    this.objectMapper = objectMapper;
+  }
+
+
+  @Test
+  public void testThatCreateBookReturnsHttpStatus201Created() throws Exception {
+    BookDto bookDto = TestDataUtil.createTestBookDtoA(null);  //to have the template of a book
+    String createBookJson = objectMapper.writeValueAsString(bookDto);//to convert out bookDto to Json
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .put("/books/" + bookDto.getIsbn())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(createBookJson)  //for the RequestBody, .content("json String")
+    ).andExpect(    //this is how you add assertions; and you need a ResultMatcher
+        MockMvcResultMatchers.status().isCreated()
+    );
+  }
+
+  @Test
+  public void testThatCreateBookReturnsCreatedBook() throws Exception {
+    BookDto bookDto = TestDataUtil.createTestBookDtoA(null);  //to have the template of a book
+    String createBookJson = objectMapper.writeValueAsString(bookDto);//to convert out bookDto to Json
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .put("/books/" + bookDto.getIsbn())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(createBookJson)  //for the RequestBody, .content("json String")
+    ).andExpect(    //this is how you add assertions; and you need a ResultMatcher
+        MockMvcResultMatchers.jsonPath("$.isbn").value(bookDto.getIsbn())
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.title").value(bookDto.getTitle())
+    );
+  }
+
+}
