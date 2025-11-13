@@ -38,7 +38,7 @@ public class AuthorController {
   @PostMapping(path = "/authors")
   public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto author) {
       AuthorEntity authorEntity = authorMapper.mapFrom(author);
-      AuthorEntity savedAuthorEntity = authorService.save(authorEntity);
+      AuthorEntity savedAuthorEntity = authorService.createAuthor(authorEntity);
       return new ResponseEntity<>(authorMapper.mapTo(savedAuthorEntity), HttpStatus.CREATED);
   }
   /* ResponseEntity<> allows to control things like the StatusCode of the response
