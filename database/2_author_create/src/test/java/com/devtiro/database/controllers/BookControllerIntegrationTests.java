@@ -2,6 +2,9 @@ package com.devtiro.database.controllers;
 
 import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.domain.dto.BookDto;
+import com.devtiro.database.domain.entities.AuthorEntity;
+import com.devtiro.database.domain.entities.BookEntity;
+import com.devtiro.database.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,11 +30,14 @@ public class BookControllerIntegrationTests {
 
   private ObjectMapper objectMapper;  //because we need a jsonObject to create a Book
 
+  private BookService bookService;
+
   /*Marks a constructor, field, setter method, or config method as to be autowired by Spring's dependency injection facilities*/
   @Autowired
-  public BookControllerIntegrationTests(MockMvc mockMvc, ObjectMapper objectMapper) {
+  public BookControllerIntegrationTests(MockMvc mockMvc, ObjectMapper objectMapper, BookService bookService) {
     this.mockMvc = mockMvc;
     this.objectMapper = objectMapper;
+    this.bookService = bookService;
   }
 
 
@@ -64,6 +70,34 @@ public class BookControllerIntegrationTests {
         MockMvcResultMatchers.jsonPath("$.isbn").value(bookDto.getIsbn())
     ).andExpect(
         MockMvcResultMatchers.jsonPath("$.title").value(bookDto.getTitle())
+    );
+  }
+
+  //To test the ReadMany endpoints(List)
+  @Test
+  public void testThatListBookReturnsHttpStatus200Ok() throws Exception {
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .get("/books")
+            .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(    //this is how you add assertions; and you need a ResultMatcher
+        MockMvcResultMatchers.status().isOk()
+    );
+  }
+
+  @Test
+  public void testThatListBooksSuccessfullyReturnsListOfBooks() throws Exception {
+    BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
+    bookService.createBook(testBookEntityA.getIsbn(), testBookEntityA);
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .get("/books")
+            .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(    //this is how you add assertions; and you need a ResultMatcher
+        MockMvcResultMatchers.jsonPath("$[0].isbn").value("978-1-2345-6789-0")
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$[0].title").value("The Shadow in the Attic")
     );
   }
 
