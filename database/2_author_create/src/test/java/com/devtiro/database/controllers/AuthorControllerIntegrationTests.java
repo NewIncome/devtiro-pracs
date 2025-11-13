@@ -2,6 +2,7 @@ package com.devtiro.database.controllers;
 
 import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.domain.entities.AuthorEntity;
+import com.devtiro.database.services.AuthorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,15 +22,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc   //Creates instances of MockMVC and places in our TestContext, suited for Controllers
 public class AuthorControllerIntegrationTests {
 
+  private AuthorService authorService;
+
   private MockMvc mockMvc;
 
   private ObjectMapper objectMapper;
 
   @Autowired
-  public AuthorControllerIntegrationTests(MockMvc mockMvn, ObjectMapper objectMapper) {
-    this.mockMvc = mockMvn;
-    this.objectMapper = new ObjectMapper();
+  public AuthorControllerIntegrationTests(AuthorService authorService, MockMvc mockMvc, ObjectMapper objectMapper) {
+    this.authorService = authorService;
+    this.mockMvc = mockMvc;
+    this.objectMapper = objectMapper;
   }
+
 
   @Test
   public void testThatCreateAuthorSuccessfullyReturnsHttp201Created() throws Exception {
@@ -66,6 +71,37 @@ public class AuthorControllerIntegrationTests {
         MockMvcResultMatchers.jsonPath("$.name").value("Abigail Rose")
     ).andExpect(
         MockMvcResultMatchers.jsonPath("$.age").value("80")
+    );
+  }
+
+  //To test the ReadMany endpoint(List), return status
+  @Test
+  public void testThatListAuthorsReturnsStatusHttp200() throws Exception {
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .get("/authors")
+            .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(
+        MockMvcResultMatchers.status().isOk()
+    );
+  }
+
+  //To test the ReadMany endpoint(List), return status
+  @Test
+  public void testThatListAuthorsSuccessfullyReturnsListOfAuthors() throws Exception {
+    AuthorEntity author = TestDataUtil.createTestAuthorEntityA();
+    authorService.createAuthor(author);
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .get("/authors")
+            .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$[0].name").value("Abigail Rose")
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$[0].age").value("80")
     );
   }
 
