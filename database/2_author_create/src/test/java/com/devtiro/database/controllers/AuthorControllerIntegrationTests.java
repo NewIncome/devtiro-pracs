@@ -105,4 +105,20 @@ public class AuthorControllerIntegrationTests {
     );
   }
 
+  @Test
+  public void testThatFindOneAuthorReturnsStatus200() throws Exception {
+    //What do I need to test the findOne end-point? What does it do? Create one to retrieve it
+    AuthorEntity testAuthor = TestDataUtil.createTestAuthorEntityA();
+    authorService.createAuthor(testAuthor);
+
+    //2.Retrieve: API http get
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .get("/authors/" + testAuthor.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(
+        MockMvcResultMatchers.status().isOk()
+    );
+  }
+
 }
