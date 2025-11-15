@@ -36,4 +36,9 @@ public class AuthorServiceImpl implements AuthorService {
               .collect(Collectors.toList());  //to collect/convert the resulting stream into a List
   }
 
+  @Override
+  public Optional<AuthorEntity> findOne(Long id) {  //is just a pass through in this case
+    return authorRepository.findById(id);
+  }
+
 }
