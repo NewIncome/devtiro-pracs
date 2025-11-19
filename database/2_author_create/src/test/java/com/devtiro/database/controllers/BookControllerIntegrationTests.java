@@ -101,4 +101,24 @@ public class BookControllerIntegrationTests {
     );
   }
 
+  @Test
+  public void testThatGetBookReturnsHttp200WhenAuthorExists() throws Exception {
+    BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
+    bookService.createBook(testBookEntity.getIsbn(), testBookEntity);
+
+    mockMvc.perform(
+      MockMvcRequestBuilders
+          .get("/books/" + testBookEntity.getIsbn())
+          .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(
+        MockMvcResultMatchers.status().isOk()
+    );
+  }
+
+  @Test
+  public void testThatGetBookReturnsHttp404WhenNoAuthorExists() {}
+
+  @Test
+  public void testThatGetBookReturnsBookWhenBookExists() {}
+
 }
