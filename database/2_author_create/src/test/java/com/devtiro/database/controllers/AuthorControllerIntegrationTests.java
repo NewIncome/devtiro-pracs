@@ -1,8 +1,10 @@
 package com.devtiro.database.controllers;
 
 import com.devtiro.database.TestDataUtil;
+import com.devtiro.database.domain.dto.AuthorDto;
 import com.devtiro.database.domain.entities.AuthorEntity;
 import com.devtiro.database.services.AuthorService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -148,6 +150,65 @@ public class AuthorControllerIntegrationTests {
         MockMvcResultMatchers.jsonPath("$.name").value("Abigail Rose")
     ).andExpect(
         MockMvcResultMatchers.jsonPath("$.age").value("80")
+    );
+  }
+
+  @Test
+  public void testThatFullUpdateAuthorReturnsHttpStatus200() throws Exception {
+    //1.find the author to be Updated
+    AuthorEntity testAuthorEntity = TestDataUtil.createTestAuthorEntityA();
+    authorService.createAuthor(testAuthorEntity);
+    //2.get the modification to send, in Json
+    testAuthorEntity.setName("J. J. Smith");
+    testAuthorEntity.setAge(99);
+    String testAuthorJson = objectMapper.writeValueAsString(testAuthorEntity); //throws JsonProcessingException
+//3.then make the request to the update
+    mockMvc.perform(    //throws Exception, which is more general, so also covers JsonProcessingException
+        MockMvcRequestBuilders
+            .put("/authors/" + testAuthorEntity.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(testAuthorJson)
+    ).andExpect(
+        MockMvcResultMatchers.status().isOk()
+    );
+  }
+
+  @Test
+  public void testThatFullUpdateAuthorReturnsHttpStatus404WhenNoAuthorExists() throws Exception {
+    AuthorEntity testAuthorEntity = TestDataUtil.createTestAuthorEntityA();
+    String testAuthorJson = objectMapper.writeValueAsString(testAuthorEntity);//throws JsonProcessingException
+
+    mockMvc.perform(    //throws Exception, which is more general, so also covers JsonProcessingException
+        MockMvcRequestBuilders
+            .put("/authors/99")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(testAuthorJson)
+    ).andExpect(
+        MockMvcResultMatchers.status().isNotFound()
+    );
+  }
+
+  @Test
+  public void testThatFullUpdateAuthorReturnsFullyUpdatedAuthor() throws Exception {
+    //1.find the author to be Updated
+    AuthorEntity testAuthorEntityC = TestDataUtil.createTestAuthorC();
+    AuthorEntity savedAuthorC = authorService.createAuthor(testAuthorEntityC);
+    //2.get the modification to send, in Json
+    AuthorDto authorDtoA = TestDataUtil.createTestAuthorDtoA();
+    authorDtoA.setId(savedAuthorC.getId());
+    String authorDtoUpdateJson = objectMapper.writeValueAsString(authorDtoA);//throws JsonProcessingException
+//3.then make the request to the update
+    mockMvc.perform(    //throws Exception, which is more general, so also covers JsonProcessingException
+        MockMvcRequestBuilders
+            .put("/authors/" + savedAuthorC.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(authorDtoUpdateJson)
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.id").value(savedAuthorC.getId())
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.name").value(authorDtoA.getName())
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.age").value(authorDtoA.getAge())
     );
   }
 
