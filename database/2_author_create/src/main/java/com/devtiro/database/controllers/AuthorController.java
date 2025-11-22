@@ -1,7 +1,7 @@
 /**
  * AuthorController End-Points
  *  POST    /authors        //Create 1 author; response->HTTP:201 + authorJson
- *  GET     /authors/{id}   //Read 1 author; response-> HTTP:200 + authorJson
+ *  GET     /authors/{id}   //Read 1 author; response-> HTTP:200 + authorJson ; 404 not_found
  *  GET     /authors          //ReadMany authors; always response-> HTTP:200 + emptyList || authorListJson
  *  PUT     /authors/{id}   //FullUpdate; response-> HTTP:200 + authorJson
  *  PATCH   /authors/{id}   //PartialUpdate; response-> HTTP:200 + authorJson
@@ -64,6 +64,21 @@ public class AuthorController {
       AuthorDto authorDto = authorMapper.mapTo(authorEntity);
       return new ResponseEntity<>(authorDto, HttpStatus.OK);
     }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  }
+
+  @PutMapping("/authors/{id}")
+  public ResponseEntity<AuthorDto> fullUpdateAuthor(@PathVariable Long id,
+                                    @RequestBody AuthorDto authorDto) {   //tells spring to look at the httpRequestBody for the AuthorObj represented as json
+    if(!authorService.isExists(id)) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    authorDto.setId(id);
+    AuthorEntity authorEntity = authorMapper.mapFrom(authorDto);
+    AuthorEntity savedAuthorEntity = authorService.update(authorEntity);
+    return new ResponseEntity<>(
+                      authorMapper.mapTo(savedAuthorEntity),
+                      HttpStatus.OK);
   }
 
 }
