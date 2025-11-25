@@ -2,10 +2,8 @@ package com.devtiro.database.controllers;
 
 import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.domain.dto.BookDto;
-import com.devtiro.database.domain.entities.AuthorEntity;
 import com.devtiro.database.domain.entities.BookEntity;
 import com.devtiro.database.services.BookService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -89,7 +87,7 @@ public class BookControllerIntegrationTests {
   @Test
   public void testThatListBooksSuccessfullyReturnsListOfBooks() throws Exception {
     BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
-    bookService.createBook(testBookEntityA.getIsbn(), testBookEntityA);
+    bookService.createUpdateBook(testBookEntityA.getIsbn(), testBookEntityA);
 
     mockMvc.perform(
         MockMvcRequestBuilders
@@ -105,7 +103,7 @@ public class BookControllerIntegrationTests {
   @Test
   public void testThatGetBookReturnsHttp200WhenAuthorExists() throws Exception {
     BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
-    bookService.createBook(testBookEntity.getIsbn(), testBookEntity);
+    bookService.createUpdateBook(testBookEntity.getIsbn(), testBookEntity);
 
     mockMvc.perform(
       MockMvcRequestBuilders
@@ -119,7 +117,7 @@ public class BookControllerIntegrationTests {
   @Test
   public void testThatGetBookReturnsHttp404WhenNoAuthorExists() throws Exception {
     BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
-    bookService.createBook(testBookEntity.getIsbn(), testBookEntity);
+    bookService.createUpdateBook(testBookEntity.getIsbn(), testBookEntity);
 
     mockMvc.perform(
         MockMvcRequestBuilders
@@ -133,7 +131,7 @@ public class BookControllerIntegrationTests {
   @Test
   public void testThatGetBookReturnsBookWhenBookExists() throws Exception {
     BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
-    bookService.createBook(testBookEntity.getIsbn(), testBookEntity);
+    bookService.createUpdateBook(testBookEntity.getIsbn(), testBookEntity);
 
     mockMvc.perform(
         MockMvcRequestBuilders
@@ -149,12 +147,13 @@ public class BookControllerIntegrationTests {
   @Test
   public void testThatFullUpdateBookReturnsHttpStatus200WhenBookExists() throws Exception {
     BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
-    bookService.createBook(testBookEntity.getIsbn(), testBookEntity);
+    BookEntity savedBookEntity = bookService.createUpdateBook(
+        testBookEntity.getIsbn(), testBookEntity
+    );
 
-    testBookEntity.setIsbn("987-654-321");
-    testBookEntity.setTitle("Fully updated book");
-    testBookEntity.setAuthorEntity(TestDataUtil.createTestAuthorC());
-    String updatedBookJson = objectMapper.writeValueAsString(testBookEntity);
+    BookDto testBookDto = TestDataUtil.createTestBookDtoA(null);
+    testBookDto.setIsbn(savedBookEntity.getIsbn());  //to make sure the isbn is correct
+    String updatedBookJson = objectMapper.writeValueAsString(testBookDto);
 
     mockMvc.perform(
         MockMvcRequestBuilders
