@@ -14,7 +14,6 @@ import com.devtiro.database.domain.entities.BookEntity;
 import com.devtiro.database.mappers.Mapper;
 import com.devtiro.database.services.BookService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +41,7 @@ public class BookController {
     BookEntity bookEntity = bookMapper.mapFrom(bookDto);
     boolean bookExists = bookService.isExists(isbn); //check before create/update
     //to create a Book we need to interact with our service layer
-    BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
+    BookEntity savedBookEntity = bookService.createUpdateBook(isbn, bookEntity);
     //we need to return a BookDto from this
     BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
 
