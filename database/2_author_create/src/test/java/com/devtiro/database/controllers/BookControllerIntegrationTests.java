@@ -5,6 +5,7 @@ import com.devtiro.database.domain.dto.BookDto;
 import com.devtiro.database.domain.entities.AuthorEntity;
 import com.devtiro.database.domain.entities.BookEntity;
 import com.devtiro.database.services.BookService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -142,6 +143,26 @@ public class BookControllerIntegrationTests {
         MockMvcResultMatchers.jsonPath("$.isbn").value(testBookEntity.getIsbn())
     ).andExpect(
         MockMvcResultMatchers.jsonPath("$.title").value(testBookEntity.getTitle())
+    );
+  }
+
+  @Test
+  public void testThatFullUpdateBookReturnsHttpStatus200WhenBookExists() throws Exception {
+    BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
+    bookService.createBook(testBookEntity.getIsbn(), testBookEntity);
+
+    testBookEntity.setIsbn("987-654-321");
+    testBookEntity.setTitle("Fully updated book");
+    testBookEntity.setAuthorEntity(TestDataUtil.createTestAuthorC());
+    String updatedBookJson = objectMapper.writeValueAsString(testBookEntity);
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+                  .put("/books/" + testBookEntity.getIsbn())
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(updatedBookJson)
+    ).andExpect(
+        MockMvcResultMatchers.status().isOk()
     );
   }
 
