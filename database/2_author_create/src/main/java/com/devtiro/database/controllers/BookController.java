@@ -40,11 +40,17 @@ public class BookController {
     /* to map our Dto to our Entity to use it in our Service for our PersistenceLayer
        mapDtoToEntity > Service > PersistenceLayer */
     BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+    boolean bookExists = bookService.isExists(isbn); //check before create/update
     //to create a Book we need to interact with our service layer
     BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
     //we need to return a BookDto from this
     BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
-    return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+
+    if(bookExists) { //update
+      return new ResponseEntity<>(savedBookDto, HttpStatus.OK);
+    } else { //create
+      return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+    }
   }
 
   @GetMapping("/books")
