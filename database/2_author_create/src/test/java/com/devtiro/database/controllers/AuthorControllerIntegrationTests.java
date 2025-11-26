@@ -197,7 +197,7 @@ public class AuthorControllerIntegrationTests {
     AuthorDto authorDtoA = TestDataUtil.createTestAuthorDtoA();
     authorDtoA.setId(savedAuthorC.getId());
     String authorDtoUpdateJson = objectMapper.writeValueAsString(authorDtoA);//throws JsonProcessingException
-//3.then make the request to the update
+    //3.then make the request to the update
     mockMvc.perform(    //throws Exception, which is more general, so also covers JsonProcessingException
         MockMvcRequestBuilders
             .put("/authors/" + savedAuthorC.getId())
@@ -209,6 +209,46 @@ public class AuthorControllerIntegrationTests {
         MockMvcResultMatchers.jsonPath("$.name").value(authorDtoA.getName())
     ).andExpect(
         MockMvcResultMatchers.jsonPath("$.age").value(authorDtoA.getAge())
+    );
+  }
+
+  @Test
+  public void testThatPartialUpdateAuthorReturnsHttpStatus200WhenAuthorExists() throws Exception {
+    AuthorEntity testAuthorEntity = TestDataUtil.createTestAuthorEntityA();
+    AuthorEntity savedAuthor = authorService.createAuthor(testAuthorEntity);
+
+    AuthorDto testAuthorDto = TestDataUtil.createTestAuthorDtoA();
+     testAuthorDto.setName("UPDATED");
+    String testAuthorJson = objectMapper.writeValueAsString(testAuthorDto);
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .put("/authors/" + savedAuthor.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(testAuthorJson)
+    ).andExpect( MockMvcResultMatchers.status().isOk() );
+  }
+
+  @Test
+  public void testThatPartialUpdateAuthorReturnsUpdatedAuthorWhenAuthorExists() throws Exception {
+    AuthorEntity testAuthorEntity = TestDataUtil.createTestAuthorEntityA();
+    AuthorEntity savedAuthor = authorService.createAuthor(testAuthorEntity);
+
+    AuthorDto testAuthorDto = TestDataUtil.createTestAuthorDtoA();
+    testAuthorDto.setName("UPDATED");
+    String testAuthorJson = objectMapper.writeValueAsString(testAuthorDto);
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .put("/authors/" + savedAuthor.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(testAuthorJson)
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.id").value(savedAuthor.getId())
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.name").value("UPDATED")
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.age").value(testAuthorDto.getAge())
     );
   }
 
