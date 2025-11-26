@@ -73,12 +73,34 @@ public class AuthorController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    authorDto.setId(id);
+    authorDto.setId(id);  //* this logic might be better done in the service
     AuthorEntity authorEntity = authorMapper.mapFrom(authorDto);
     AuthorEntity savedAuthorEntity = authorService.update(authorEntity);
     return new ResponseEntity<>(
                       authorMapper.mapTo(savedAuthorEntity),
                       HttpStatus.OK);
+  }
+
+  @PatchMapping("/authors/{id}")
+  public ResponseEntity<AuthorDto> partialUpdate(
+                  @PathVariable Long id,
+                  @RequestBody AuthorDto authorDto) {
+    //1st check if the object exists in the DB
+    if(!authorService.isExists(id)) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    //map from a dto to an entity
+    AuthorEntity authorEntity = authorMapper.mapFrom(authorDto);
+    //make the update from the Service
+    AuthorEntity updatedAuthor = authorService.partialUpdate(id, authorEntity);
+    /* In the prev PutMapping we set the Id here, but might be better
+     * to separate that logic and do that in the ServiceLayer.
+     * it's sort of business logic  */
+    //map back the received aEntity to Dto for the json response
+    return new ResponseEntity<>(
+                  authorMapper.mapTo(updatedAuthor),
+                  HttpStatus.OK);
   }
 
 }
