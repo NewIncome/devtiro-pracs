@@ -1,5 +1,6 @@
 package com.devtiro.database.services;
 
+import com.devtiro.database.domain.dto.AuthorDto;
 import com.devtiro.database.domain.entities.AuthorEntity;
 
 import java.util.List;
@@ -16,5 +17,7 @@ public interface AuthorService {
   boolean isExists(Long id);
 
   AuthorEntity update(AuthorEntity authorEntity);
+
+  AuthorEntity partialUpdate(Long id, AuthorEntity authorEntity);
 
 }
