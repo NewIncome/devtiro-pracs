@@ -33,7 +33,8 @@ public class BookController {
     this.bookService = bookService;
   }
 
-  @PutMapping("/books/{isbn}")  //for a FULL-UPDATE or CREATE(w-CustomId)
+  //for a FULL-UPDATE or CREATE(w-CustomId)
+  @PutMapping("/books/{isbn}")
   public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn,
                                             @RequestBody BookDto bookDto) { //variable to assign PathVariable to
     /* to map our Dto to our Entity to use it in our Service for our PersistenceLayer
@@ -68,6 +69,23 @@ public class BookController {
       BookDto bookDto = bookMapper.mapTo(bookEntity);
       return new ResponseEntity<>(bookDto, HttpStatus.OK);
     }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  }
+
+  @PatchMapping(path = "/books/{isbn}")
+  public ResponseEntity<BookDto> partialUpdate(@PathVariable("isbn") String isbn,
+                                               @RequestBody BookDto bookDto) {
+    //1st: check if the book exists, return status 404 if not
+    if(!bookService.isExists(isbn)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    //2nd: Convert the received bookDTO-info to Entity, to update the data
+    BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+    BookEntity updatedBook = bookService.partialUpdate(isbn, bookEntity);
+
+    //3rd: return a response 200 with the updatedBookDTO , so Jackson can do it's thing(convert the Dto to Json)
+    return new ResponseEntity<>(
+                  bookMapper.mapTo(updatedBook),
+                  HttpStatus.OK
+    );
   }
 
 }
