@@ -20,4 +20,6 @@ public interface AuthorService {
 
   AuthorEntity partialUpdate(Long id, AuthorEntity authorEntity);
 
+  void delete(Long id);
+
 }
