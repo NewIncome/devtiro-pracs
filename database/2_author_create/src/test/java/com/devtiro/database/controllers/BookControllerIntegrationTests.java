@@ -4,6 +4,7 @@ import com.devtiro.database.TestDataUtil;
 import com.devtiro.database.domain.dto.BookDto;
 import com.devtiro.database.domain.entities.BookEntity;
 import com.devtiro.database.services.BookService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -186,6 +187,32 @@ public class BookControllerIntegrationTests {
         MockMvcResultMatchers.jsonPath("$.isbn").value(testBookEntity.getIsbn())
     ).andExpect(
         MockMvcResultMatchers.jsonPath("$.title").value("Updated")
+    );
+  }
+
+  @Test
+  public void testThatPartialUpdateBookReturnsHttpStatus200WhenBookExists() throws Exception {
+    //Create a book in the testDB
+    BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
+    BookEntity savedBookEntity = bookService.createUpdateBook(
+        testBookEntity.getIsbn(), testBookEntity
+    );
+
+    //Create different test bookDTO to use it's info, with a modified value jit
+    BookDto testBookDto = TestDataUtil.createTestBookDtoA(null);
+    //just to make sure we edit the correct created book
+    testBookDto.setIsbn(savedBookEntity.getIsbn());
+    //create the json string to send in the request. Needs to check for 'JsonProcessingException'
+    String updatedBookJson = objectMapper.writeValueAsString(testBookDto);
+
+    //make the mock-request and assert with resultMatchers. Needs to check for general 'Exception'
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .patch("/books/" + savedBookEntity.getIsbn())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(updatedBookJson)
+    ).andExpect(
+        MockMvcResultMatchers.status().isOk()
     );
   }
 
