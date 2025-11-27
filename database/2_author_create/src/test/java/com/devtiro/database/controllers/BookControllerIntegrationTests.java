@@ -200,8 +200,8 @@ public class BookControllerIntegrationTests {
 
     //Create different test bookDTO to use it's info, with a modified value jit
     BookDto testBookDto = TestDataUtil.createTestBookDtoA(null);
-    //just to make sure we edit the correct created book
-    testBookDto.setIsbn(savedBookEntity.getIsbn());
+    //test a change
+    testBookDto.setTitle("Updated!");
     //create the json string to send in the request. Needs to check for 'JsonProcessingException'
     String updatedBookJson = objectMapper.writeValueAsString(testBookDto);
 
@@ -214,6 +214,50 @@ public class BookControllerIntegrationTests {
     ).andExpect(
         MockMvcResultMatchers.status().isOk()
     );
+  }
+
+  @Test
+  public void testThatPartialUpdateBookReturnsUpdatedBookWhenBookExists() throws Exception {
+    BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
+    BookEntity savedBookEntity = bookService.createUpdateBook(
+        testBookEntity.getIsbn(), testBookEntity
+    );
+
+    BookDto testBookDto = TestDataUtil.createTestBookDtoA(null);
+    testBookDto.setTitle("Updated!");
+    String updatedBookJson = objectMapper.writeValueAsString(testBookDto);
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .patch("/books/" + savedBookEntity.getIsbn())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(updatedBookJson)
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.isbn").value(testBookEntity.getIsbn())
+    ).andExpect(
+        MockMvcResultMatchers.jsonPath("$.title").value("Updated!")
+    );
+  }
+
+  @Test
+  public void testThatDeleteBookReturnsHttpStatus204WhenNoBookExists() throws Exception {
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete("/books/99")
+            .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect( MockMvcResultMatchers.status().isNoContent() );
+  }
+
+  @Test
+  public void testThatDeleteBookReturnsHttpStatus204WhenBookExists() throws Exception {
+    BookEntity testBookEntity = TestDataUtil.createTestBookEntityA(null);
+    bookService.createUpdateBook(testBookEntity.getTitle(), testBookEntity);
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete("/books/99")
+            .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect( MockMvcResultMatchers.status().isNoContent() );
   }
 
 }
