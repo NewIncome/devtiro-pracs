@@ -252,4 +252,30 @@ public class AuthorControllerIntegrationTests {
     );
   }
 
+  //Becuase if the author doesn't exist it still won't exist...
+  @Test
+  public void testThatAuthorDeleteReturnsHttpResponse204WhenNoAuthorExists() throws Exception {
+    mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete("/authors/99")
+            .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(
+        MockMvcResultMatchers.status().isNoContent()
+    );
+  }
+
+  @Test
+  public void testThatAuthorDeleteReturnsHttpResponse204WhenAuthorDeleted() throws Exception {
+    AuthorEntity testAuthorEntity = TestDataUtil.createTestAuthorEntityA();
+    AuthorEntity savedAuthor = authorService.createAuthor(testAuthorEntity);
+
+    mockMvc.perform(
+        MockMvcRequestBuilders
+              .delete("/authors/" + savedAuthor.getId())
+              .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(
+        MockMvcResultMatchers.status().isNoContent()
+    );
+  }
+
 }
