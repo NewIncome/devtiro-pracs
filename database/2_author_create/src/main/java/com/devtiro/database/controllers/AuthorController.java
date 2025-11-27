@@ -13,7 +13,6 @@ import com.devtiro.database.domain.dto.AuthorDto;
 import com.devtiro.database.domain.entities.AuthorEntity;
 import com.devtiro.database.mappers.Mapper;
 import com.devtiro.database.services.AuthorService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -101,6 +100,12 @@ public class AuthorController {
     return new ResponseEntity<>(
                   authorMapper.mapTo(updatedAuthor),
                   HttpStatus.OK);
+  }
+
+  @DeleteMapping("/authors/{id}")
+  public ResponseEntity deleteAuthor(@PathVariable Long id) {
+    authorService.delete(id);
+    return new ResponseEntity(HttpStatus.NO_CONTENT);
   }
 
 }
