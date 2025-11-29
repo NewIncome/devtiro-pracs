@@ -3,6 +3,8 @@ package com.devtiro.database.services.impl;
 import com.devtiro.database.domain.entities.BookEntity;
 import com.devtiro.database.repositories.BookRepository;
 import com.devtiro.database.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +35,11 @@ public class BookServiceImpl implements BookService {
                     bookRepository.findAll().spliterator(),
                     false)
               .collect(Collectors.toList());
+  }
+
+  @Override
+  public Page<BookEntity> findAll(Pageable pageable) {
+    return bookRepository.findAll(pageable);
   }
 
   @Override
