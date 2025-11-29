@@ -85,8 +85,9 @@ public class BookControllerIntegrationTests {
     );
   }
 
+  //Now modified for pagination
   @Test
-  public void testThatListBooksSuccessfullyReturnsListOfBooks() throws Exception {
+  public void testThatListBooksPageSuccessfullyReturnsPageOfBooks() throws Exception {
     BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
     bookService.createUpdateBook(testBookEntityA.getIsbn(), testBookEntityA);
 
@@ -95,9 +96,9 @@ public class BookControllerIntegrationTests {
             .get("/books")
             .contentType(MediaType.APPLICATION_JSON)
     ).andExpect(    //this is how you add assertions; and you need a ResultMatcher
-        MockMvcResultMatchers.jsonPath("$[0].isbn").value("978-1-2345-6789-0")
+        MockMvcResultMatchers.jsonPath("$.content[0].isbn").value("978-1-2345-6789-0")
     ).andExpect(
-        MockMvcResultMatchers.jsonPath("$[0].title").value("The Shadow in the Attic")
+        MockMvcResultMatchers.jsonPath("$.content[0].title").value("The Shadow in the Attic")
     );
   }
 
